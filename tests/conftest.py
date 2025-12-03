@@ -3,8 +3,6 @@ from appium import webdriver
 from appium.options.common import AppiumOptions
 
 
-
-
 @pytest.fixture()
 def driver():
     desired_caps = {
@@ -25,3 +23,10 @@ def driver():
     yield driver
 
     driver.quit()
+
+
+@pytest.fixture(autouse=True)
+def go_to_home_screen(driver):
+    driver.press_keycode(3)
+    yield
+    driver.press_keycode(3)

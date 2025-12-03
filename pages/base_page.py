@@ -8,7 +8,8 @@ class MainScreenPage:
     phone_widget = (AppiumBy.ACCESSIBILITY_ID, "Phone")
     camera_widget = (AppiumBy.ACCESSIBILITY_ID, "Camera")
     photo_click_button = (AppiumBy.ACCESSIBILITY_ID, "Shutter")
-    thumbnail = (AppiumBy.ID, "com.android.camera2:id/rounded_thumbnail_view")
+    new_photo = (AppiumBy.ID, 'com.android.camera2:id/rounded_thumbnail_view')
+    last_photo = (AppiumBy.XPATH, "(//android.widget.ImageView)[last()]")
 
 
     def __init__(self, driver, timeout=15):
@@ -37,12 +38,11 @@ class MainScreenPage:
     def is_camera_visible(self):
         assert self.wait.until(EC.visibility_of_element_located(self.camera_widget))
 
-    def open_last_photo(self):
-        self.wait.until(EC.element_to_be_clickable(self.thumbnail)).click()
+    def open_new_photo(self):
+        new_photo = self.wait.until(EC.visibility_of_element_located(self.new_photo))
+        new_photo.click()
+        return new_photo
 
-
-
-
-
-
-
+    def last_photo_is_displayed(self):
+        last_photo = self.wait.until(EC.visibility_of_element_located(self.last_photo))
+        assert last_photo.is_displayed()
